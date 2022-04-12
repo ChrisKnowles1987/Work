@@ -329,9 +329,9 @@ class Gamestate():
         #Knight checks just look for Knight moves from the kings position
         knightMoves  = ((-2, 1), (-2, -1), (2, 1), (2, -1), (-1, -2), (-1, 2), (1, 2), (1, -2))
         for m in knightMoves:
-            endRow =startRow +m [0]
+            endRow = startRow + m [0]
             endCol = startCol + m [1]
-            if 0 <= endRow < 8 and 0 <= endCol <= 8:
+            if 0 <= endRow <= 7 and 0 <= endCol <= 7:
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] == enemyColour and endPiece[1] == "N":   #if the piece is an enemy Knight
                     inCheck =True
