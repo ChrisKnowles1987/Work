@@ -61,13 +61,14 @@ def main():
                 
                 if len(playerClicks) ==2: #user has selected a move to make
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                    print(move.getChessNotation())
+                    
                     
                     if  move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
                         sqSelected = ()
                         playerClicks = []
+                        print(move.getChessNotation())
                     else:
                         playerClicks = [sqSelected]
                               
@@ -89,11 +90,15 @@ def main():
 
 #move highlighting and square selected
 def highlightSquares(screen, gs, validMoves, sqSelected):
-    s= p.Surface((SQ_SIZE, SQ_SIZE))
-    s.set_alpha(100) #transparency value  0= transparent, 255 = opaque
-    s.fill(p.Color("red"))
-    screen.blit(s, (gs.whiteKingLocation[1]* SQ_SIZE, gs.whiteKingLocation[0] * SQ_SIZE))
-    screen.blit(s, (gs.blackKingLocation[1]* SQ_SIZE, gs.blackKingLocation[0] * SQ_SIZE))
+    if gs.inCheck:
+        s= p.Surface((SQ_SIZE, SQ_SIZE))
+        s.set_alpha(100) #transparency value  0= transparent, 255 = opaque
+        s.fill(p.Color("red"))
+        if gs.whiteToMove:
+            screen.blit(s, (gs.whiteKingLocation[1]* SQ_SIZE, gs.whiteKingLocation[0] * SQ_SIZE))
+        else:
+            screen.blit(s, (gs.blackKingLocation[1]* SQ_SIZE, gs.blackKingLocation[0] * SQ_SIZE))
+    
     
     if sqSelected != ():
         r, c = sqSelected
