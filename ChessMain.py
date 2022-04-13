@@ -89,6 +89,12 @@ def main():
 
 #move highlighting and square selected
 def highlightSquares(screen, gs, validMoves, sqSelected):
+    s= p.Surface((SQ_SIZE, SQ_SIZE))
+    s.set_alpha(100) #transparency value  0= transparent, 255 = opaque
+    s.fill(p.Color("red"))
+    screen.blit(s, (gs.whiteKingLocation[1]* SQ_SIZE, gs.whiteKingLocation[0] * SQ_SIZE))
+    screen.blit(s, (gs.blackKingLocation[1]* SQ_SIZE, gs.blackKingLocation[0] * SQ_SIZE))
+    
     if sqSelected != ():
         r, c = sqSelected
         #highlight sq selected
