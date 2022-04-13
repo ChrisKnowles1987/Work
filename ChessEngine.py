@@ -154,7 +154,7 @@ class Gamestate():
             for i in range(1 ,8): # max 7 moves possible from one end of board to the other
                 endRow = startRow +d[0] * i 
                 endCol = startCol +d[1] * i 
-                if 0 <= endRow <=7 and 0 < endCol <= 7:  # check the position is on the board
+                if 0 <= endRow <=7 and 0 <= endCol <= 7:  # check the position is on the board
                     endPiece = self.board[endRow][endCol]
                     if endPiece[0] == allyColour and endPiece[1] != "K":
                         if possiblePin == (): #first ally piece encountered in this direction
