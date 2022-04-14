@@ -62,15 +62,16 @@ def main():
                 if len(playerClicks) ==2: #user has selected a move to make
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     
-                    
-                    if  move in validMoves:
-                        gs.makeMove(move)
-                        moveMade = True
-                        sqSelected = ()
-                        playerClicks = []
-                        print(move.getChessNotation())
-                    else:
-                        playerClicks = [sqSelected]
+                    for i in range(len(validMoves)):
+                       if move == validMoves[i]: 
+                        if  move in validMoves:
+                            gs.makeMove(validMoves[i])
+                            moveMade = True
+                            sqSelected = ()
+                            playerClicks = []
+                            print(move.getChessNotation())
+                    if not moveMade:
+                            playerClicks = [sqSelected]
                               
                      
     #key handler
