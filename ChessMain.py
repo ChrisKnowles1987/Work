@@ -1,8 +1,7 @@
 
 #Driver file for user input and GameState information
 
-#from operator import truediv
-#from turtle import Screen, color
+
 import ChessEngine
 import pygame as p
 WIDTH = HEIGHT = 512
@@ -10,6 +9,7 @@ DIMENSION = 8
 SQ_SIZE =  HEIGHT // DIMENSION
 MAX_FPS = 15
 IMAGES = {}
+
 
 
 #Initialise a global dictionary of images called once in main.  Potentially add ability to reskin with image libraries later.
@@ -40,13 +40,18 @@ def main():
     
     sqSelected = ()   #tracks last click of user (tuple:(row,col))
     playerClicks = [] #tracks total cliks  will add code to reset back to 0 after 2 clicks or if a null move is selected (two tuples[(x,y), (x,y)])
+    
+    playerOne = True  # True = white is human
+    playerTwo = False # True = black is human
     while running:
+        isHumanTurn = (gs.whiteToMove and playerOne) or (not gs.whiteToMove and playerTwo)
+        
         for e in p.event.get():
             if e.type ==p.QUIT:
                 running = False
                 
     #mouse handler
-            elif e.type == p.MOUSEBUTTONDOWN:
+            elif e.type == p.MOUSEBUTTONDOWN: 
                 location = p.mouse.get_pos()  #gets coordinates of mouse.  Keep account for board size if side pannels are added
                 col = location[0] // SQ_SIZE
                 row = location[1] //SQ_SIZE
@@ -79,6 +84,13 @@ def main():
                 if e.key == p.K_z:
                     gs.undoMove()  # press z to undoo a move
                     moveMade = True
+                if e.key == p.K_r:
+                    gs = ChessEngine.Gamestate()
+                    validMoves = gs.getValidMoves()
+                    sqSelected = ()
+                    playerClicks = []
+                    moveMade = False
+                    
         if moveMade:
             validMoves = gs.getValidMoves()
             moveMade = False
@@ -90,7 +102,19 @@ def main():
         p.display.flip()
 
 #move highlighting and square selected
+# def getLastMove(moveLog):
+#     lastMove = moveLog[-1] if moveLog != [] else []
+#     return lastMove
+
 def highlightSquares(screen, gs, validMoves, sqSelected):
+    # lastMove = getLastMove()
+    # if  lastMove != []:
+        
+    #     s= p.Surface((SQ_SIZE, SQ_SIZE))
+    #     s.set_alpha(100) #transparency value  0= transparent, 255 = opaque
+    #     s.fill(p.Color("orange"))
+    #     screen.blit(s, (lastMove[0] * SQ_SIZE, lastMove[1] * SQ_SIZE))
+        
     if gs.inCheck:
         s= p.Surface((SQ_SIZE, SQ_SIZE))
         s.set_alpha(100) #transparency value  0= transparent, 255 = opaque
