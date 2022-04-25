@@ -2,7 +2,7 @@
 #Driver file for user input and GameState information
 
 
-import ChessEngine
+import ChessEngine, ChessMoveFinder
 import pygame as p
 WIDTH = HEIGHT = 512
 DIMENSION = 8
@@ -40,6 +40,7 @@ def main():
     
     sqSelected = ()   #tracks last click of user (tuple:(row,col))
     playerClicks = [] #tracks total cliks  will add code to reset back to 0 after 2 clicks or if a null move is selected (two tuples[(x,y), (x,y)])
+    gameOver = False
     
     playerOne = True  # True = white is human
     playerTwo = False # True = black is human
@@ -51,32 +52,32 @@ def main():
                 running = False
                 
     #mouse handler
-            elif e.type == p.MOUSEBUTTONDOWN: 
-                location = p.mouse.get_pos()  #gets coordinates of mouse.  Keep account for board size if side pannels are added
-                col = location[0] // SQ_SIZE
-                row = location[1] //SQ_SIZE
-                
-                if sqSelected ==(row,col): #user has selcted same sq twice, we need to reset.
-                    sqSelected = ()
-                    playerClicks = []
+            elif e.type == p.MOUSEBUTTONDOWN:
+                if not gameOver and isHumanTurn: 
+                    location = p.mouse.get_pos()  #gets coordinates of mouse.  Keep account for board size if side pannels are added
+                    col = location[0] // SQ_SIZE
+                    row = location[1] //SQ_SIZE
                     
-                else:
-                    sqSelected = (row, col)
-                    playerClicks.append(sqSelected)
-                
-                if len(playerClicks) ==2: #user has selected a move to z
-                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    if sqSelected ==(row,col): #user has selcted same sq twice, we need to reset.
+                        sqSelected = ()
+                        playerClicks = []
+                        
+                    else:
+                        sqSelected = (row, col)
+                        playerClicks.append(sqSelected)
                     
-                    for i in range(len(validMoves)):
-                       if move == validMoves[i]: 
-                        if  move in validMoves:
-                            gs.makeMove(validMoves[i])
-                            moveMade = True
-                            sqSelected = ()
-                            playerClicks = []
-                            print(move.getChessNotation())
-                    if not moveMade:
-                            playerClicks = [sqSelected]
+                    if len(playerClicks) ==2: #user has selected a move to z
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        
+                        for i in range(len(validMoves)):
+                            if move == validMoves[i]: 
+                                gs.makeMove(validMoves[i])
+                                moveMade = True
+                                sqSelected = ()
+                                playerClicks = []
+                                print(move.getChessNotation())
+                        if not moveMade:
+                                playerClicks = [sqSelected]
                               
                      
     #key handler
@@ -90,6 +91,17 @@ def main():
                     sqSelected = ()
                     playerClicks = []
                     moveMade = False
+                    gameOver = False
+                   
+        #ChessMoveFinder logic
+        if not gameOver and not isHumanTurn:
+            AIMove = ChessMoveFinder.findBestMoveMinMax(gs, validMoves)
+            if AIMove is None:
+                AIMove = ChessMoveFinder.findRandomMove(validMoves)
+                print ("random move chosen")
+            gs.makeMove(AIMove)
+            moveMade = True
+        
                     
         if moveMade:
             validMoves = gs.getValidMoves()
@@ -98,6 +110,12 @@ def main():
             
                     
         drawgameState(screen ,gs, validMoves, sqSelected)
+        
+        if gs.checkMate:
+            gameOver = True
+        elif gs.staleMate:
+            gameOver = True
+            
         clock.tick(MAX_FPS)
         p.display.flip()
 
