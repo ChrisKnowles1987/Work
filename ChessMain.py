@@ -42,7 +42,7 @@ def main():
     playerClicks = [] #tracks total cliks  will add code to reset back to 0 after 2 clicks or if a null move is selected (two tuples[(x,y), (x,y)])
     gameOver = False
     
-    playerOne = True  # True = white is human
+    playerOne = False  # True = white is human
     playerTwo = False # True = black is human
     while running:
         isHumanTurn = (gs.whiteToMove and playerOne) or (not gs.whiteToMove and playerTwo)
@@ -75,7 +75,7 @@ def main():
                                 moveMade = True
                                 sqSelected = ()
                                 playerClicks = []
-                                print(move.getChessNotation())
+                                #print(move.getChessNotation())
                         if not moveMade:
                                 playerClicks = [sqSelected]
                               

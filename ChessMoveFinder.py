@@ -9,13 +9,13 @@ import ChessEngine
 
 CHECKMATE = 1000
 STALEMATE = 0
-DEPTH = 2
+DEPTH = 3
 
 
 pieceScore = {"K": 0, "Q": 9, "R": 5, "N": 3, "B": 3, "P": 1}
 
-def scoreMaterial(board):
-    gs = ChessEngine.Gamestate()
+def scoreMaterial(gs):
+    
     score = 0
     for row in gs.board:
         for square in row:
@@ -23,12 +23,12 @@ def scoreMaterial(board):
                 score += pieceScore[square[1]]
             elif square[0] == "b":
                 score -= pieceScore[square[1]]
-    print (score)
+    #print (score)
     return score
 
 
 def scoreBoard(gs):
-    gs = ChessEngine.Gamestate()
+    
     #positive score is good for white, negative score is good for black so we need to set the worst score based on perspective
     if gs.checkMate:
         if gs.whiteToMove:
@@ -51,7 +51,7 @@ def findRandomMove(validMoves):
     return validMoves[random.randint(0, len(validMoves) -1)]
 
 def findBestMoveMinMax(gs, validMoves):
-    gs = ChessEngine.Gamestate()
+    
     global nextMove
     nextMove = None
     findMoveMinMax(gs, validMoves, DEPTH, gs.whiteToMove)
@@ -59,10 +59,10 @@ def findBestMoveMinMax(gs, validMoves):
 
 
 def findMoveMinMax(gs, validMoves, depth, whiteToMove):
-    gs = ChessEngine.Gamestate()
+    
     global nextMove
     if depth == 0:
-        return scoreMaterial(gs.board)
+        return scoreMaterial(gs)
     
     if whiteToMove:
         maxScore = -CHECKMATE #set to lowest possible score for white to find a better move and iterate over this to fidn the best move

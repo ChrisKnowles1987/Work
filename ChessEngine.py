@@ -125,7 +125,7 @@ class Gamestate():
             if move.endCol - move.startCol == 2: #Kingside
                 self.board[move.endRow][move.endCol +1] = self.board[move.endRow][move.endCol -1]
                 self.board[move.endRow][move.endCol-1] = "--"
-                print("here")
+                #print("here")
             else: #Queenside
                 self.board[move.endRow][move.endCol -2] = self.board[move.endRow][move.endCol +1]
                 self.board[move.endRow][move.endCol +1] = "--"
@@ -356,14 +356,14 @@ class Gamestate():
                         moves.append(Move((r,c),(r-1,c-1), self.board))
                 elif (r-1, c-1) == self.enpassantPossible:
                     moves.append(Move((r,c),(r-1,c-1), self.board, isEnpassantMove = True))
-                    print("enpassant flag")
+                    #print("enpassant flag")
             if c+1 <= 7:
                 if self.board[r-1][c+1][0] == "b":
                     if not piecePinned or pinDirection == (-1 , 1):
                         moves.append(Move((r,c),(r-1,c+1), self.board))
                 elif (r-1, c+1) == self.enpassantPossible:
                     moves.append(Move((r,c),(r-1,c+1), self.board, isEnpassantMove = True))
-                    print("enpassant flag")
+                    #print("enpassant flag")
         #back pawn moves
         else:
             if self.board[r+1][c] == "--":
@@ -378,7 +378,7 @@ class Gamestate():
                     if not piecePinned or pinDirection == (1 , -1):
                         moves.append(Move((r,c),(r+1,c-1), self.board))
                 elif (r+1, c-1) == self.enpassantPossible:
-                    print("enpassant flag")
+                    #print("enpassant flag")
                     moves.append(Move((r,c),(r+1,c-1), self.board, isEnpassantMove = True))
             if c+1 <=7:
                 if self.board[r+1][c+1][0] == "w":
@@ -386,7 +386,7 @@ class Gamestate():
                         moves.append(Move((r,c),(r+1,c+1), self.board))
                 elif (r+1, c+1) == self.enpassantPossible:
                     moves.append(Move((r,c),(r+1,c+1), self.board, isEnpassantMove = True))
-                    print("enpassant flag")
+                    #print("enpassant flag")
            
             
                         
