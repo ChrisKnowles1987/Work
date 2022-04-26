@@ -42,7 +42,7 @@ def main():
     playerClicks = [] #tracks total cliks  will add code to reset back to 0 after 2 clicks or if a null move is selected (two tuples[(x,y), (x,y)])
     gameOver = False
     
-    playerOne = False  # True = white is human
+    playerOne = True  # True = white is human
     playerTwo = False # True = black is human
     while running:
         isHumanTurn = (gs.whiteToMove and playerOne) or (not gs.whiteToMove and playerTwo)
@@ -75,7 +75,7 @@ def main():
                                 moveMade = True
                                 sqSelected = ()
                                 playerClicks = []
-                                #print(move.getChessNotation())
+                                print(move.getChessNotation())
                         if not moveMade:
                                 playerClicks = [sqSelected]
                               
@@ -95,10 +95,10 @@ def main():
                    
         #ChessMoveFinder logic
         if not gameOver and not isHumanTurn:
-            AIMove = ChessMoveFinder.findBestMoveMinMax(gs, validMoves)
+            AIMove = ChessMoveFinder.findBestMove(gs, validMoves)
             if AIMove is None:
                 AIMove = ChessMoveFinder.findRandomMove(validMoves)
-                print ("random move chosen")
+                #print ("random move chosen")
             gs.makeMove(AIMove)
             moveMade = True
         
@@ -113,9 +113,10 @@ def main():
         
         if gs.checkMate:
             gameOver = True
+            print ("Checkmate")
         elif gs.staleMate:
             gameOver = True
-            
+            print ("Stalemate")
         clock.tick(MAX_FPS)
         p.display.flip()
 

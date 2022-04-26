@@ -68,7 +68,7 @@ class Gamestate():
         
         if move.pieceMoved[1] == "P" and abs(move.startRow - move.endRow) == 2: # only for 2 sq pawn advance
             self.enpassantPossible = ((move.startRow + move.endRow) // 2, move.endCol)
-            print(self.enpassantPossible)
+            #print(self.enpassantPossible)
         else:
             self.enpassantPossible = ()
             
@@ -225,10 +225,10 @@ class Gamestate():
         if len(moves) == 0: #either checkmate ir stalemate
             if self.inCheck:
                 self.checkMate = True
-                print("Checkmate")
+                #print("Checkmate")
             else:
                 self.staleMate = True
-                print ("Stalemate")
+               # print ("Stalemate")
         else:
             self.checkMate = False
             self.staleMate = False
